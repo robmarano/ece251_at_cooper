@@ -5,23 +5,28 @@ LABEL maintainer="Prof. Rob Marano <rob@cooper.edu>"
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN yes | unminimize
+#RUN yes | unminimize
 # add our course's global bashrc file
 ADD --chown=root:root ./etc/bash.bashrc /etc/bash.bashrc
 ADD --chown=root:root ./etc/motd /etc/motd
 ADD --chown=root:root ./etc/issue /etc/issue
 # update your instance of Ubuntu server
-RUN apt update && apt upgrade -y
+RUN apt-get update && apt-get upgrade -y
 # install essential C development tools
-RUN apt install -y --force-yes build-essential gdb manpages-dev man-db sudo curl git-core vim wget
+RUN apt-get install -y software-properties-common build-essential gdb python3 python3-pip cmake
+RUN pip3 install unicorn 
+RUN pip3 install capstone 
+RUN pip3 install ropper 
+#RUN pip3 install keystone-engine
+RUN apt-get install -y manpages-dev man-db sudo curl git-core vim wget
 # install terminal multiplexer to have multiple terminals in one session
 # https://tmuxcheatsheet.com/
-RUN apt install -y tmux
+RUN apt-get install -y tmux
 # allow devuser to have superuser/root privileges
-RUN apt install -y --force-yes sudo
+RUN apt-get install -y sudo
 ADD --chown=root:root ./etc/sudoers /etc/sudoers
 # install some neat Linux tools
-RUN apt install -y fortune cowsay
+RUN apt-get install -y fortune cowsay
 # create a local user called "devuser" for local development
 RUN adduser \
         --quiet \
