@@ -46,14 +46,17 @@ $(OBJ): $(APP).s
 # echoing return value from $(EXE), since it's not zero.
 # If you just run $(EXE) it will fail with Error 12 in make
 # because the return value from the Assembly program seems to be 12
-run: $(EXE)
-	@echo $(./$(EXE))
+.SILENT:
+run: $(EXE) $(OBJ) $(ASM)
+	./$(EXE) \
+	e=$$?; \
+	exit $$e
 
 clean:
 	/bin/rm -f $(OBJ) $(EXE) a.out
 
-oread:
+oread: $(EXE) $(OBJ) $(ASM)
 	$(OBJDUMP) $(OBJDUMP_OPTS) $(EXE)
 
-asmlist:
+asmlist: $(OBJ) $(ASM)
 	$(AS) $(ASFLAGS) $(ASLIST) -o $(OBJ) $(ASM) 

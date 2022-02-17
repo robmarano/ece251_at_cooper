@@ -10,7 +10,8 @@ int main(void)
     char c = hello_str[pos];
 
     while (c != '\0') {
-        printf("%c",hello_str[pos]);
+        /* printf("%c",hello_str[pos]); */
+        write(1,c,1);
         pos++;
         c = hello_str[pos];
     }

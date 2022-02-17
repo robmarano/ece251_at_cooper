@@ -33,13 +33,11 @@ main:
 	strb	w0, [sp, 27]
 	b	.L2
 .L3:
-	adrp	x0, hello_str
-	add	x0, x0, :lo12:hello_str
-	ldr	x1, [x0]
-	ldrsw	x0, [sp, 28]
-	add	x0, x1, x0
-	ldrb	w0, [x0]
-	bl	putchar
+	ldrb	w0, [sp, 27]
+	mov	w2, 1
+	mov	w1, w0
+	mov	w0, 1
+	bl	write
 	ldr	w0, [sp, 28]
 	add	w0, w0, 1
 	str	w0, [sp, 28]
