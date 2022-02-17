@@ -7,11 +7,16 @@
 # ADD YOUR PROGRAM NAME HERE
 APP=while
 
+AS=aarch64-linux-gnu-as
 CC=aarch64-linux-gnu-gcc
-CXXFLAGS=#-fpic
+LD=aarch64-linux-gnu-ld
+ASFLAGS=--gstabs
+CXXFLAGS=-g #-fpic
 OBJDUMP=aarch64-linux-gnu-objdump
-STATIC=-static
-BUILD_OPTS=-march=armv8-a -mtune=generic -mlittle-endian -mcmodel=tiny -mgeneral-regs-only $(STATIC)
+STATIC=#-static
+LINK_OPTS=-maarch64linux -lc -Bdynamic -EL
+BUILD_OPTS=-fpic -mabi=lp64 -mcpu=native -march=armv8-a -mtune=generic $(STATIC)
+#BUILD_OPTS=-march=armv8-a -mtune=generic -mlittle-endian -mcmodel=tiny -mgeneral-regs-only $(STATIC)
 #OBJDUMP_OPTS=-f -s -d --source
 OBJDUMP_OPTS=-dr
 
@@ -23,12 +28,12 @@ EXE=$(APP).exe
 
 # for compilation of assemly files into object files
 %.o: %.s 
-	$(CC) $(CXXFLAGS) -c -o $@ $<
+	$(AS) $(ASFLAGS) -o $@ $<
 
 # for linking object files into an executable program file
 # build for static libs embedded: -static
 $(EXE): $(APP).o
-	$(CC) $(BUILD_OPTS) -o $@ $^
+	$(LD) -o $@ $(LINK_OPTS) $^
 
 # Compile doen to object code (machine code, unlinked)
 $(OBJ): $(APP).s
