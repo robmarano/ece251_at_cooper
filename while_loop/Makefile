@@ -10,7 +10,8 @@ APP=while
 AS=aarch64-linux-gnu-as
 CC=aarch64-linux-gnu-gcc
 LD=aarch64-linux-gnu-ld
-ASFLAGS=--gstabs
+ASFLAGS=--gstabs -g
+ASLIST=-al
 CXXFLAGS=-g #-fpic
 OBJDUMP=aarch64-linux-gnu-objdump
 STATIC=#-static
@@ -39,7 +40,7 @@ $(EXE): $(APP).o
 $(OBJ): $(APP).s
 
 # This is to trick make to know that "clean" and "run" are targets
-.PHONY: run clean oread
+.PHONY: run clean oread asmlist
 
 # Run the program
 # echoing return value from $(EXE), since it's not zero.
@@ -53,3 +54,6 @@ clean:
 
 oread:
 	$(OBJDUMP) $(OBJDUMP_OPTS) $(EXE)
+
+asmlist:
+	$(AS) $(ASFLAGS) $(ASLIST) -o $(OBJ) $(ASM) 
