@@ -50,7 +50,7 @@ After installing Docker Hub and Git on your computers, follow the instructions:
     mkdir dev
     cd dev
     ```
-    2. If you are on Windows host OS, replace %HOMEDRIVE% and %HOMEPATH% with your Windows home directory run command:
+    2. If you are on Windows host OS:
     ```bash
     cd %HOMEPATH%
     mkdir dev
@@ -78,7 +78,7 @@ After installing Docker Hub and Git on your computers, follow the instructions:
     ```bash
     docker run --rm -dit -e "TERM=xterm-256color" -P --name ece251 -v ~/:/home/devuser/myHome --platform linux/arm64 -t ubuntu:ece251
     ```
-    2. If you are on Windows, replace %HOMEDRIVE% and %HOMEPATH% with your Windows home directory run command:
+    2. If you are on Windows, run command:
     ```bash
     docker run --rm -dit -e "TERM=xterm-256color" -P --name ece251 --security-opt seccomp=unconfined --mount type=bind,source="%HOMEDRIVE%%HOMEPATH%\Documents",destination=/home/devuser/myHome ubuntu:ece251
     ```
