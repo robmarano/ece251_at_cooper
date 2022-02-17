@@ -14,9 +14,9 @@ ADD --chown=root:root ./etc/issue /etc/issue
 RUN apt-get update && apt-get upgrade -y
 # install essential C development tools
 RUN apt-get install -y software-properties-common build-essential gdb python3 python3-pip cmake
-RUN pip3 install unicorn 
-RUN pip3 install capstone 
-RUN pip3 install ropper 
+#RUN pip3 install unicorn 
+#RUN pip3 install capstone 
+#RUN pip3 install ropper 
 #RUN pip3 install keystone-engine
 RUN apt-get install -y manpages-dev man-db sudo curl git-core vim wget
 # install terminal multiplexer to have multiple terminals in one session
