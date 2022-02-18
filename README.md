@@ -76,11 +76,11 @@ After installing Docker Hub and Git on your computers, follow the instructions:
     Choose from either option below based upon your OS. See Docker [run manual](https://docs.docker.com/engine/reference/run/) to decode what the command above does.
     1. If you are on Mac or Linux, run command:
     ```bash
-    docker run --rm -dit -e "TERM=xterm-256color" -P --name ece251 -v ~/:/home/devuser/myHome --platform linux/arm64 -t ubuntu:ece251
+    docker run --rm -dit -e "TERM=xterm-256color" -P --name ece251 -v ~/:/home/ece251/myHome --platform linux/arm64 -t ubuntu:ece251
     ```
     2. If you are on Windows, run command:
     ```bash
-    docker run --rm -dit -e "TERM=xterm-256color" -P --name ece251 --security-opt seccomp=unconfined --mount type=bind,source="%HOMEDRIVE%%HOMEPATH%\Documents",destination=/home/devuser/myHome ubuntu:ece251
+    docker run --rm -dit -e "TERM=xterm-256color" -P --name ece251 --security-opt seccomp=unconfined --mount type=bind,source="%HOMEDRIVE%%HOMEPATH%\Documents",destination=/home/ece251/myHome ubuntu:ece251
     ```
 8. Confirm the Docker container is running using the command ```docker ps```, looking for the line that has ```ubuntu:ece251``` as the image.
 9. Login to your new Docker container to being coding ```docker exec -it ece251 /bin/bash```
