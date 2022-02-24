@@ -9,6 +9,9 @@
 # From Mac OS
 .DS_Store
 
+*.exe
+*.o
+
 # General Un*x
 *~
 *.*.swp
