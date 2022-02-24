@@ -1,3 +1,17 @@
-# Mac OS
+#=========================================================================
+# Git Ignore Files
+#=========================================================================
+# We explicitly ignore a default build directory, the autoconf generated
+# autom4te.cache directory, and automatically generated python files.
+# This makes it easy to do a clean build under the source directory and
+# still have it appear clean to git.
+
+# From Mac OS
 .DS_Store
 
+# General Un*x
+*~
+*.*.swp
+
+# Verilog
+*.vcd
