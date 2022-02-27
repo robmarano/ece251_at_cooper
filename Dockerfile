@@ -11,7 +11,7 @@ ADD --chown=root:root ./etc/bash.bashrc /etc/bash.bashrc
 ADD --chown=root:root ./etc/motd /etc/motd
 ADD --chown=root:root ./etc/issue /etc/issue
 # update your instance of Ubuntu server
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update && yes | apt-get upgrade -y
 # install some neat Linux tools
 RUN apt-get install -y sudo curl git-core vim wget
 #RUN apt-get install -y manpages-dev man-db sudo curl git-core vim wget
