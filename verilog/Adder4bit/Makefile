@@ -35,7 +35,7 @@ SOUTPUT = -lxt		#SIMULATOR OUTPUT TYPE
 #MAKE DIRECTIVES
 .PHONY: compile simulate display clean
 compile : $(TESTBENCH) $(SRC)
-	$(COMPILER) $(COFLAGS) -o $(COMPONENT) $(TESTBENCH) $(SRC)
+	$(COMPILER) $(COFLAGS) -o $(COMPONENT).exe $(TESTBENCH) $(SRC)
 
 simulate: $(COMPONENT)
 	$(SIMULATOR) $(SFLAGS) $(COMPONENT) $(TESTBENCH) $(SOUTPUT)
@@ -44,4 +44,4 @@ display: $(TBOUTPUT)
 	$(VIEWER) $(TBOUTPUT) &
 
 clean:
-	/bin/rm -f $(COMPONENT) a.out compiler.out
+	/bin/rm -f $(COMPONENT).exe a.out compiler.out

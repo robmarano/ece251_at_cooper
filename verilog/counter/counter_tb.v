@@ -5,12 +5,16 @@ module test;
   initial begin
      $dumpfile("test.vcd");
      $dumpvars(0,test);
-
+/*
      # 17 reset = 1;
      # 11 reset = 0;
      # 29 reset = 1;
-     # 5  reset =0;
+     # 5  reset = 0;
      # 513 $finish;
+*/
+   # 1 reset = 1;
+   # 3 reset = 0;
+   # 20 $finish;
   end
 
   /* Make a regular pulsing clock. */
@@ -21,6 +25,6 @@ module test;
   counter c1 (value, clk, reset);
 
   initial
-     $monitor("At time %t, value = %h (%0d)",
-              $time, value, value);
+     $monitor("At time %t, reset = %h, value = %h (%0d)",
+              $time, reset, value, value);
 endmodule // test

@@ -14,6 +14,8 @@ wire Cout;
 Adder4bit uut (.A(A), .B(B), .Cin(Cin), .Sum(Sum), .Cout(Cout));
 
 initial begin
+   $monitor ("A=%b B=%b Cin=%b Cout=%b Sum=%b", A, B, Cin, Cout, Sum);
+
    // Initialize Inputs
    A = 4'b0;
    B = 4'b0;
