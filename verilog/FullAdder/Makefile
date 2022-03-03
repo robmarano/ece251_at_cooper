@@ -37,7 +37,7 @@ SOUTPUT = -lxt		#SIMULATOR OUTPUT TYPE
 compile : $(TESTBENCH) $(SRC)
 	$(COMPILER) $(COFLAGS) -o $(COMPONENT).exe $(TESTBENCH) $(SRC)
 
-simulate: $(COMPONENT)
+simulate: $(COMPONENT).exe
 	$(SIMULATOR) $(SFLAGS) $(COMPONENT).exe $(TESTBENCH) $(SOUTPUT)
 
 display: $(TBOUTPUT)
