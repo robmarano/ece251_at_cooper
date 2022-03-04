@@ -26,8 +26,8 @@ COMPILER = iverilog
 SIMULATOR = vvp
 VIEWER = gtkwave #works on your host, not docker container since it's a GUI
 #TOOL OPTIONS
-COFLAGS = -v
-SFLAGS = -v
+COFLAGS = #-v
+SFLAGS = #-v
 SOUTPUT = -lxt		#SIMULATOR OUTPUT TYPE
 #TOOL OUTPUT
 #COUTPUT = compiler.out			#COMPILER OUTPUT
