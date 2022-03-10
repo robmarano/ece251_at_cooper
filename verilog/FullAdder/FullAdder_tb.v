@@ -19,6 +19,8 @@ FullAdder uut (.In1(In1), .In2(In2), .Cin(Cin), .Sum(Sum), .Cout(Cout));
 
 initial
 begin
+    $dumpfile("test.vcd");
+//    $dumpvars(0,A,B,Cin,Cout,Sum);
     $display("A\tB\tCin\tCout\tSum");
     $monitor("%b\t%b\t%b\t%b\t%b",In1,In2,Cin,Cout,Sum);
 end
