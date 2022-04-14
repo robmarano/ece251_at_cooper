@@ -70,7 +70,7 @@ module dmem(input  logic        clk, we,
 
   assign rd = RAM[a[31:2]]; // word aligned
 
-  always_ff @(posedge clk)
+  always @(posedge clk)
     if (we) RAM[a[31:2]] <= wd;
 endmodule
 
@@ -137,7 +137,7 @@ module maindec(input  logic [5:0] op,
   assign {regwrite, regdst, alusrc, branch, memwrite,
           memtoreg, jump, aluop} = controls;
 
-  always_comb
+  always @*
     case(op)
       6'b000000: controls <= 9'b110000010; // RTYPE
       6'b100011: controls <= 9'b101001000; // LW
@@ -153,7 +153,7 @@ module aludec(input  logic [5:0] funct,
               input  logic [1:0] aluop,
               output logic [2:0] alucontrol);
 
-  always_comb
+  always @*
     case(aluop)
       2'b00: alucontrol <= 3'b010;  // add (for lw/sw/addi)
       2'b01: alucontrol <= 3'b110;  // sub (for beq)
@@ -222,7 +222,7 @@ module regfile(input  logic        clk,
   // note: for pipelined processor, write third port
   // on falling edge of clk
 
-  always_ff @(posedge clk)
+  always @(posedge clk)
     if (we3) rf[wa3] <= wd3;	
 
   assign rd1 = (ra1 != 0) ? rf[ra1] : 0;
@@ -253,7 +253,7 @@ module flopr #(parameter WIDTH = 8)
                input  logic [WIDTH-1:0] d, 
                output logic [WIDTH-1:0] q);
 
-  always_ff @(posedge clk, posedge reset)
+  always @(posedge clk, posedge reset)
     if (reset) q <= 0;
     else       q <= d;
 endmodule
@@ -276,7 +276,7 @@ module alu(input  logic [31:0] a, b,
   assign condinvb = alucontrol[2] ? ~b : b;
   assign sum = a + condinvb + alucontrol[2];
 
-  always_comb
+  always @*
     case (alucontrol[1:0])
       2'b00: result = a & b;
       2'b01: result = a | b;

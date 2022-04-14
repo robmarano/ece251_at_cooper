@@ -13,9 +13,9 @@
 #
 #TOOL INPUT
 COMPONENT = mips_single_cycle
-SRC = $(COMPONENT).v
+SRC = $(COMPONENT).sv
 SIM_ARGS=
-TESTBENCH = $(COMPONENT)_tb.v
+#TESTBENCH = $(COMPONENT)_tb.v
 TBOUTPUT = $(COMPONENT)_waves.lxt	#THIS NEEDS TO MATCH THE OUTPUT FILE
 			#FROM YOUR TESTBENCH
 ###############################################################################
@@ -34,11 +34,11 @@ SOUTPUT = -lxt		#SIMULATOR OUTPUT TYPE
 ###############################################################################
 #MAKE DIRECTIVES
 .PHONY: compile simulate display clean
-compile : $(TESTBENCH) $(SRC)
-	$(COMPILER) $(COFLAGS) -o $(COMPONENT).exe $(TESTBENCH) $(SRC)
+compile : $(SRC)
+	$(COMPILER) $(COFLAGS) -o $(COMPONENT).exe $(SRC)
 
 simulate: $(COMPONENT).exe
-	$(SIMULATOR) $(SFLAGS) $(COMPONENT).exe $(TESTBENCH) $(SOUTPUT)
+	$(SIMULATOR) $(SFLAGS) $(COMPONENT).exe $(SOUTPUT)
 
 display: $(TBOUTPUT)
 	$(VIEWER) $(TBOUTPUT) &
