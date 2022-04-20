@@ -13,17 +13,13 @@ ADD --chown=root:root ./etc/issue /etc/issue
 # update your instance of Ubuntu server
 RUN apt-get update && yes | apt-get upgrade -y
 # install some neat Linux tools
-RUN apt-get install -y sudo curl git-core vim wget
-#RUN apt-get install -y manpages-dev man-db sudo curl git-core vim wget
+RUN apt-get install -y curl git-core vim wget
+RUN apt-get install -y manpages-dev man-db
 #RUN apt-get install -y fortune cowsay
 # install iVerilog; see http://iverilog.icarus.com/
 RUN apt-get install -y iverilog
 # install essential development tools
 RUN apt-get install -y software-properties-common build-essential gdb python3 python3-pip cmake make
-#RUN pip3 install unicorn 
-#RUN pip3 install capstone 
-#RUN pip3 install ropper 
-#RUN pip3 install keystone-engine
 # install terminal multiplexer to have multiple terminals in one session
 # https://tmuxcheatsheet.com/
 RUN apt-get install -y tmux
@@ -38,7 +34,7 @@ RUN adduser \
         --home /home/ece251 \
         --gecos "User" ece251
 # configure your local "ece251"
-RUN echo "ece251:Cooper1859!" | chpasswd
+RUN echo "ece251:ece251" | chpasswd
 RUN usermod -aG sudo ece251
 #  Add new user docker to sudo group
 RUN adduser ece251 sudo
@@ -55,9 +51,9 @@ ADD --chown=ece251:ece251 ./README.md /home/ece251/ECE-251-README.md
 ADD --chown=ece251:ece251 ./etc/.gitconfig /home/ece251/.gitconfig
 # add the pre-existing SSH files for your access to your GitHub account
 # ensure you have in your host computer under C:\Users\YOURNAME\Documents\ssh in Windows or /Users/YOURNAME/ssh
-# RUN mkdir -p /home/ece251/.ssh
-# ADD --chown=ece251:ece251 ./ssh/id_ed25519 /home/ece251/.ssh/id_ed25519
-# ADD --chown=ece251:ece251 ./ssh/id_ed25519.pub /home/ece251/.ssh/id_ed25519.pub
-# RUN chmod 400 /home/ece251/.ssh/id_ed25519
-# RUN chmod 400 /home/ece251/.ssh/id_ed25519.pub
+RUN mkdir -p /home/ece251/.ssh
+ADD --chown=ece251:ece251 ./ssh/id_ed25519 /home/ece251/.ssh/id_ed25519
+ADD --chown=ece251:ece251 ./ssh/id_ed25519.pub /home/ece251/.ssh/id_ed25519.pub
+RUN chmod 400 /home/ece251/.ssh/id_ed25519
+RUN chmod 400 /home/ece251/.ssh/id_ed25519.pub
 SHELL ["/bin/bash", "-c"]

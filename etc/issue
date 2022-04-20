@@ -1,4 +1,4 @@
-Version: 1.7
-New Features: Added iVerilog
-New Fixes: None
+Version: 1.8
+New Features: None
+New Fixes: Cleaned up Dockerfile
 Issues: None
