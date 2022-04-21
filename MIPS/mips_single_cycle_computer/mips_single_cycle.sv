@@ -1,6 +1,7 @@
 // mips.sv
 // From Section 7.6 of Digital Design & Computer Architecture
 // Updated to SystemVerilog 26 July 2011 David_Harris@hmc.edu
+`timescale 10ms/100   us // 1ms period, 10us precision
 
 module mips_single_cycle_tb();
 
@@ -17,6 +18,8 @@ module mips_single_cycle_tb();
   begin
       $dumpfile("mips_single_cycle_test.vcd");
       $dumpvars(0,clk,reset,writedata,dataadr,memwrite);
+      $display("writedata\tdataadr\tmemwrite");
+      $monitor("%9d\t%7d\t%8d",writedata,dataadr,memwrite);
       // $dumpvars(0,clk,a,b,ctrl,result,zero,negative,carryOut,overflow);
       // $display("Ctl Z  N  O  C  A                    B                    ALUresult");
       // $monitor("%3b %b  %b  %b  %b  %8b (0x%2h;%3d)  %8b (0x%2h;%3d)  %8b (0x%2h;%3d)",ctrl,zero,negative,overflow,carryOut,a,a,a,b,b,b,result,result,result);
@@ -38,12 +41,14 @@ module mips_single_cycle_tb();
   always @(negedge clk)
     begin
       if(memwrite) begin
-        if(dataadr === 84 & writedata === 7) begin
+        // if(dataadr === 84 & writedata === 7) begin
+        if(dataadr === 60 & writedata === 28) begin
           $display("Simulation succeeded");
-          $stop;
-        end else if (dataadr !== 80) begin
+          $finish;
+        end
+        else if (dataadr !== 80) begin
           $display("Simulation failed");
-          $stop;
+          $finish;
         end
       end
     end
@@ -66,7 +71,7 @@ module dmem(input  logic        clk, we,
             input  logic [31:0] a, wd,
             output logic [31:0] rd);
 
-  logic [31:0] RAM[63:0];
+  logic [31:0] RAM[0:63];
 
   assign rd = RAM[a[31:2]]; // word aligned
 
@@ -77,7 +82,7 @@ endmodule
 module imem(input  logic [5:0] a,
             output logic [31:0] rd);
 
-  logic [31:0] RAM[63:0];
+  logic [31:0] RAM[0:63];
 
   initial
       $readmemh("memfile.dat",RAM);
