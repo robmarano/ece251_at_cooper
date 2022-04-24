@@ -1,7 +1,7 @@
 .org 0                      # Memory begins at location 0x00000000
 Main:                                                         # MIPS machine code
-    addi $v0, $zero, 11     # $v0 = 11                        ; 2002000b
-    addi $v1, $zero, 12     # $v1 = 12                        ; 2003000c
+    addi $v0, $zero, 187    # $v0 = 187 (0xbb)                ; 200200bb
+    addi $v1, $zero, 204    # $v1 = 204 (0xcc)                ; 200300cc
     add  $a0, $v0, $v1      # $a0 = $v0, $v1                  ; 00432020
     mult $v0, $v1           # {HI,LO} = $v0 * $v1             ; 00430018
     mflo $t0                # $t0 = {LO}                      ; 00004012

@@ -11,11 +11,15 @@ module mips_single_cycle_tb();
   logic [31:0] writedata, dataadr;
   logic        memwrite;
 
+  logic firstTest, secondTest;
+
   // instantiate device to be tested
   top dut(clk, reset, writedata, dataadr, memwrite);
   
   initial
   begin
+      firstTest = 1'b0;
+      secondTest = 1'b0;
       $dumpfile("mips_single_cycle_test.vcd");
       $dumpvars(0,clk,reset,writedata,dataadr,memwrite);
       // $display("writedata\tdataadr\tmemwrite");
@@ -61,6 +65,7 @@ module mips_single_cycle_tb();
       $display("\t+regfile -- wd3 = %d",dut.mips.dp.rf.wd3);
       $display("\t+regfile -- rd1 = %d",dut.mips.dp.rf.rd1);
       $display("\t+regfile -- rd2 = %d",dut.mips.dp.rf.rd2);
+      $display("\t+RAM[%4d] = %4d",dut.dmem.a,dut.dmem.rd);
       $display("writedata\tdataadr\tmemwrite");
   end
 
@@ -89,19 +94,48 @@ module mips_single_cycle_tb();
       $display("\t-regfile -- wd3 = %d",dut.mips.dp.rf.wd3);
       $display("\t-regfile -- rd1 = %d",dut.mips.dp.rf.rd1);
       $display("\t-regfile -- rd2 = %d",dut.mips.dp.rf.rd2);
+      $display("\t+RAM[%4d] = %4d",dut.dmem.a,dut.dmem.rd);
+      $display("writedata\tdataadr\tmemwrite");
+      if (dut.dmem.RAM[84] === 32'h9504)
+        begin
+          $display("Successfully wrote 0x%4h at RAM[%3d]",84,32'h9504);
+          firstTest = 1'b1;
+        end
+      if (dut.dmem.RAM[88] === 0)
+        begin
+          $display("Successfully wrote 0x%4h at RAM[%3d]",88,0);
+          secondTest = 1'b1;
+        end
       if(memwrite) begin
-        if(dataadr === 84 & writedata === 132) begin
-          if(dataadr === 88 & writedata === 0) begin
+        if(dataadr === 84 & writedata === 32'h9504)
+        begin
+          $display("Successfully wrote 0x%4h at RAM[%3d]",writedata,dataadr);
+          firstTest = 1'b1;
+        end
+        if(dataadr === 88 & writedata === 0)
+        begin
+          $display("Successfully wrote 0x%4h at RAM[%3d]",writedata,dataadr);
+          secondTest = 1'b1;
         //if(dataadr === 60 & writedata === 28) begin
-            $display("Simulation succeeded");
-            $finish;
-          end
+            // $display("Simulation succeeded");
+            // $finish;
+          // end
         end
-        else if (dataadr !== 80) begin
-          $display("Simulation failed");
-          $finish;
-        end
+        // else if (dataadr !== 80) begin
+        //   $display("Simulation failed");
+        //   $finish;
+        // end
       end
+      if (firstTest === 1'b1 & secondTest === 1'b1)
+      begin
+          $display("Program successfully completed");
+          $finish;
+      end
+      // else
+      // begin
+      //     $display("Program UNsuccessfully completed");
+      //     $finish;
+      // end
     end
 endmodule
 
@@ -359,6 +393,8 @@ module alu(input  logic clk,
         3'b000: result = a & b; // and
         3'b001: result = a | b; // or
         3'b010: result = a + b; // add
+        3'b100: result = HiLo[31:0]; // MFLO
+        3'b101: result = HiLo[63:32]; // MFHI
         3'b110: result = sumSlt; // sub
         3'b111: result = sum[31]; // slt
       endcase
@@ -371,18 +407,18 @@ module alu(input  logic clk,
     //   2'b11: result = sum[31];
     // endcase
 
-	always @(posedge clk)
-		begin
-      case (alucontrol)
-        3'b000: result = a & b; // and
-        3'b001: result = a | b; // or
-        3'b010: result = a + b; // add
-        3'b100: result = HiLo[31:0]; // MFLO
-        3'b101: result = HiLo[63:32]; // MFHI
-        3'b110: result = sumSlt; // sub
-        3'b111: result = sum[31]; // slt
-      endcase
-    end
+	// always @(posedge clk)
+	// 	begin
+  //     case (alucontrol)
+  //       3'b000: result = a & b; // and
+  //       3'b001: result = a | b; // or
+  //       3'b010: result = a + b; // add
+  //       3'b100: result = HiLo[31:0]; // MFLO
+  //       3'b101: result = HiLo[63:32]; // MFHI
+  //       3'b110: result = sumSlt; // sub
+  //       3'b111: result = sum[31]; // slt
+  //     endcase
+  //   end
 
 	//Multiply and divide results are only stored at clock falling edge.
 	always @(negedge clk)
